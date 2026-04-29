@@ -1,310 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ntuition Interactive Quiz</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f7f9fc, #e8f0ff);
-      color: #222;
+{
+  "questions": [
+    {
+      "questionNumber": 1,
+      "question": "Let $A=\{1,2,3\}$. The total number of distinct relations that can be defined over $A$ is:",
+      "answerOptions": [
+        {"text": "$2^{9}$", "isCorrect": true},
+        {"text": "6", "isCorrect": false},
+        {"text": "8", "isCorrect": false},
+        {"text": "None of these", "isCorrect": false}
+      ],
+      "hint": "A relation on set A is any subset of the Cartesian product $A \times A$.",
+      "explanation": "Since $n(A) = 3$, the number of elements in $A \times A$ is $3 \times 3 = 9$. The total number of subsets (relations) is $2^9$[cite: 2]."
+    },
+    {
+      "questionNumber": 2,
+      "question": "If $A$ and $B$ are two sets, then $(A-B)\cup(B-A)\cup(A\cap B)$ is equal to:",
+      "answerOptions": [
+        {"text": "$A\cup B$", "isCorrect": true},
+        {"text": "$A\cap B$", "isCorrect": false},
+        {"text": "A", "isCorrect": false},
+        {"text": "$B^{\prime}$", "isCorrect": false}
+      ],
+      "hint": "Think about the Venn diagram regions: 'Only A', 'Only B', and 'Both'.",
+      "explanation": "Combining the elements that are strictly in A, strictly in B, and in their intersection covers every element in the union $A \cup B$[cite: 2]."
+    },
+    {
+      "questionNumber": 3,
+      "question": "The range of the function $f(x)=5\cos x+3\cos(x+\frac{\pi}{3})+4$ is:",
+      "answerOptions": [
+        {"text": "[-3, 11]", "isCorrect": true},
+        {"text": "[-18, 10]", "isCorrect": false},
+        {"text": "[-10, 18]", "isCorrect": false},
+        {"text": "None of these", "isCorrect": false}
+      ],
+      "hint": "First, expand $\cos(x+\pi/3)$ and find the amplitude of the combined trigonometric part.",
+      "explanation": "The expression can be simplified to a form $A\cos(x+\phi) + 4$. The amplitude $A$ is 7, so the range is $[4-7, 4+7] = [-3, 11]$[cite: 2]."
+    },
+    {
+      "questionNumber": 4,
+      "question": "The domain of $f(x)=\frac{\log_{2}(x+3)}{x^{2}+3x+2}$ is:",
+      "answerOptions": [
+        {"text": "$R-\{-1,-2\}$", "isCorrect": false},
+        {"text": "(-2, +\infty)", "isCorrect": false},
+        {"text": "$R-\{-1,-2,-3\}$", "isCorrect": false},
+        {"text": "$(-3,+\infty)-\{-1,-2\}$", "isCorrect": true}
+      ],
+      "hint": "Check two conditions: the log argument must be positive, and the denominator cannot be zero.",
+      "explanation": "For the log, $x+3 > 0 \implies x > -3$. For the denominator, $(x+1)(x+2) \neq 0 \implies x \neq -1, -2$. Combining these gives $(-3, \infty) - \{-1, -2\}$[cite: 2]."
+    },
+    {
+      "questionNumber": 5,
+      "question": "If $\log_{4}5=a$ and $\log_{5}6=b$, then $\log_{3}2$ is equal to:",
+      "answerOptions": [
+        {"text": "$\frac{1}{2a+1}$", "isCorrect": false},
+        {"text": "$\frac{1}{2b+1}$", "isCorrect": false},
+        {"text": "$2ab+1$", "isCorrect": false},
+        {"text": "$\frac{1}{2ab-1}$", "isCorrect": true}
+      ],
+      "hint": "Note that $a \cdot b = \log_{4}6$. Use the change of base formula.",
+      "explanation": "$ab = \log_{4}6 = \frac{\log_2 6}{\log_2 4} = \frac{1 + \log_2 3}{2}$. Solving for $\log_3 2$ gives $\frac{1}{2ab-1}$[cite: 1]."
+    },
+    {
+      "questionNumber": 6,
+      "question": "The value of $(\log_{10}2)^{3}+\log_{10}8 \cdot \log_{10}5+(\log_{10}5)^{3}$ is:",
+      "answerOptions": [
+        {"text": "0", "isCorrect": false},
+        {"text": "1", "isCorrect": true},
+        {"text": "2", "isCorrect": false},
+        {"text": "3", "isCorrect": false}
+      ],
+      "hint": "Use $x^3 + y^3 + 3xy(x+y) = (x+y)^3$ where $x=\log 2$ and $y=\log 5$.",
+      "explanation": "Since $\log_{10}2 + \log_{10}5 = \log_{10}10 = 1$, the expression simplifies to $(\log 2 + \log 5)^3 = 1^3 = 1$[cite: 1]."
+    },
+    {
+      "questionNumber": 7,
+      "question": "The equivalent function of $\log x^{2}$ is:",
+      "answerOptions": [
+        {"text": "2\log x", "isCorrect": false},
+        {"text": "$2\log|x|$", "isCorrect": true},
+        {"text": "$|\log x^{2}|$", "isCorrect": false},
+        {"text": "$(\log x)^{2}$", "isCorrect": false}
+      ],
+      "hint": "Consider the domain. $\log x^2$ is defined for negative $x$, while $2\log x$ is not.",
+      "explanation": "$2\log|x|$ preserves the domain of $\log x^2$ (all $x \neq 0$) while using the power property of logarithms[cite: 2]."
     }
-
-    .container {
-      max-width: 750px;
-      margin: 40px auto;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 32px;
-      color: #0b3d91;
-    }
-
-    .header p {
-      margin-top: 8px;
-      color: #555;
-      font-size: 16px;
-    }
-
-    .progress {
-      height: 10px;
-      background: #e4e8f0;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-bottom: 25px;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #0b3d91;
-      transition: width 0.3s ease;
-    }
-
-    .question-box h2 {
-      font-size: 22px;
-      margin-bottom: 18px;
-    }
-
-    .option {
-      display: block;
-      width: 100%;
-      padding: 14px 16px;
-      margin: 10px 0;
-      border: 2px solid #d7dce8;
-      border-radius: 12px;
-      background: #fff;
-      cursor: pointer;
-      font-size: 16px;
-      text-align: left;
-      transition: 0.2s;
-    }
-
-    .option:hover {
-      background: #f0f5ff;
-      border-color: #0b3d91;
-    }
-
-    .option.correct {
-      background: #d4f8df;
-      border-color: #1f9d55;
-    }
-
-    .option.wrong {
-      background: #ffe0e0;
-      border-color: #e3342f;
-    }
-
-    .feedback {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 10px;
-      display: none;
-      font-weight: bold;
-    }
-
-    .feedback.show {
-      display: block;
-    }
-
-    .feedback.correct-text {
-      background: #e8fff0;
-      color: #146c2e;
-    }
-
-    .feedback.wrong-text {
-      background: #fff0f0;
-      color: #b91c1c;
-    }
-
-    .btn {
-      margin-top: 24px;
-      padding: 13px 22px;
-      border: none;
-      border-radius: 10px;
-      background: #0b3d91;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      display: none;
-    }
-
-    .btn:hover {
-      background: #082f70;
-    }
-
-    .result {
-      text-align: center;
-      display: none;
-    }
-
-    .result h2 {
-      color: #0b3d91;
-      font-size: 30px;
-    }
-
-    .score {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 20px 0;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 25px;
-      color: #777;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>ntuition Interactive Quiz</h1>
-      <p>Choose the correct answer and check your score instantly.</p>
-    </div>
-
-    <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <div id="quizBox" class="question-box">
-      <h2 id="questionText"></h2>
-      <div id="optionsBox"></div>
-      <div id="feedback" class="feedback"></div>
-      <button id="nextBtn" class="btn" onclick="nextQuestion()">Next Question</button>
-    </div>
-
-    <div id="resultBox" class="result">
-      <h2>Quiz Completed!</h2>
-      <p class="score" id="scoreText"></p>
-      <p id="remarkText"></p>
-      <button class="btn" style="display:inline-block" onclick="restartQuiz()">Restart Quiz</button>
-    </div>
-
-    <div class="footer">www.ntuition.org | 7305044008</div>
-  </div>
-
-  <script>
-    const questions = [
-      {
-        question: "1. What is 25% of 200?",
-        options: ["25", "40", "50", "75"],
-        answer: "50",
-        explanation: "25% means 25 out of 100. So, 25% of 200 = 50."
-      },
-      {
-        question: "2. Which number is divisible by 3?",
-        options: ["124", "238", "342", "451"],
-        answer: "342",
-        explanation: "A number is divisible by 3 if the sum of its digits is divisible by 3. 3 + 4 + 2 = 9."
-      },
-      {
-        question: "3. What is the square of 12?",
-        options: ["124", "132", "144", "156"],
-        answer: "144",
-        explanation: "12 × 12 = 144."
-      },
-      {
-        question: "4. If 5x = 40, what is x?",
-        options: ["5", "6", "8", "10"],
-        answer: "8",
-        explanation: "Divide both sides by 5: x = 40 ÷ 5 = 8."
-      },
-      {
-        question: "5. Which is the smallest prime number?",
-        options: ["0", "1", "2", "3"],
-        answer: "2",
-        explanation: "2 is the smallest prime number and the only even prime number."
-      }
-    ];
-
-    let currentQuestion = 0;
-    let score = 0;
-    let answered = false;
-
-    function loadQuestion() {
-      answered = false;
-      const q = questions[currentQuestion];
-      document.getElementById("questionText").textContent = q.question;
-      document.getElementById("optionsBox").innerHTML = "";
-      document.getElementById("feedback").className = "feedback";
-      document.getElementById("feedback").textContent = "";
-      document.getElementById("nextBtn").style.display = "none";
-
-      q.options.forEach(option => {
-        const button = document.createElement("button");
-        button.className = "option";
-        button.textContent = option;
-        button.onclick = () => checkAnswer(button, option);
-        document.getElementById("optionsBox").appendChild(button);
-      });
-
-      updateProgress();
-    }
-
-    function checkAnswer(button, selectedOption) {
-      if (answered) return;
-      answered = true;
-
-      const q = questions[currentQuestion];
-      const allOptions = document.querySelectorAll(".option");
-      const feedback = document.getElementById("feedback");
-
-      allOptions.forEach(opt => {
-        opt.disabled = true;
-        if (opt.textContent === q.answer) {
-          opt.classList.add("correct");
-        }
-      });
-
-      if (selectedOption === q.answer) {
-        score++;
-        feedback.textContent = "Correct! " + q.explanation;
-        feedback.className = "feedback show correct-text";
-      } else {
-        button.classList.add("wrong");
-        feedback.textContent = "Wrong. Correct answer is: " + q.answer + ". " + q.explanation;
-        feedback.className = "feedback show wrong-text";
-      }
-
-      document.getElementById("nextBtn").style.display = "inline-block";
-    }
-
-    function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion < questions.length) {
-        loadQuestion();
-      } else {
-        showResult();
-      }
-    }
-
-    function updateProgress() {
-      const progress = ((currentQuestion) / questions.length) * 100;
-      document.getElementById("progressBar").style.width = progress + "%";
-    }
-
-    function showResult() {
-      document.getElementById("progressBar").style.width = "100%";
-      document.getElementById("quizBox").style.display = "none";
-      document.getElementById("resultBox").style.display = "block";
-      document.getElementById("scoreText").textContent = "Your Score: " + score + " / " + questions.length;
-
-      let remark = "";
-      if (score === questions.length) {
-        remark = "Excellent! Full marks.";
-      } else if (score >= questions.length * 0.7) {
-        remark = "Very good! Keep practicing.";
-      } else if (score >= questions.length * 0.4) {
-        remark = "Good try. Revise the concepts once more.";
-      } else {
-        remark = "Needs more practice. Try again carefully.";
-      }
-      document.getElementById("remarkText").textContent = remark;
-    }
-
-    function restartQuiz() {
-      currentQuestion = 0;
-      score = 0;
-      document.getElementById("quizBox").style.display = "block";
-      document.getElementById("resultBox").style.display = "none";
-      loadQuestion();
-    }
-
-    loadQuestion();
-  </script>
-</body>
-</html>
+  ]
+}
