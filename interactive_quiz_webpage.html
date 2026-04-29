@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ntuition Interactive Quiz</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f7f9fc, #e8f0ff);
+      color: #222;
+    }
+
+    .container {
+      max-width: 750px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 32px;
+      color: #0b3d91;
+    }
+
+    .header p {
+      margin-top: 8px;
+      color: #555;
+      font-size: 16px;
+    }
+
+    .progress {
+      height: 10px;
+      background: #e4e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #0b3d91;
+      transition: width 0.3s ease;
+    }
+
+    .question-box h2 {
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .option {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      margin: 10px 0;
+      border: 2px solid #d7dce8;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: left;
+      transition: 0.2s;
+    }
+
+    .option:hover {
+      background: #f0f5ff;
+      border-color: #0b3d91;
+    }
+
+    .option.correct {
+      background: #d4f8df;
+      border-color: #1f9d55;
+    }
+
+    .option.wrong {
+      background: #ffe0e0;
+      border-color: #e3342f;
+    }
+
+    .feedback {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      display: none;
+      font-weight: bold;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.correct-text {
+      background: #e8fff0;
+      color: #146c2e;
+    }
+
+    .feedback.wrong-text {
+      background: #fff0f0;
+      color: #b91c1c;
+    }
+
+    .btn {
+      margin-top: 24px;
+      padding: 13px 22px;
+      border: none;
+      border-radius: 10px;
+      background: #0b3d91;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .btn:hover {
+      background: #082f70;
+    }
+
+    .result {
+      text-align: center;
+      display: none;
+    }
+
+    .result h2 {
+      color: #0b3d91;
+      font-size: 30px;
+    }
+
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>ntuition Interactive Quiz</h1>
+      <p>Choose the correct answer and check your score instantly.</p>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="quizBox" class="question-box">
+      <h2 id="questionText"></h2>
+      <div id="optionsBox"></div>
+      <div id="feedback" class="feedback"></div>
+      <button id="nextBtn" class="btn" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+    <div id="resultBox" class="result">
+      <h2>Quiz Completed!</h2>
+      <p class="score" id="scoreText"></p>
+      <p id="remarkText"></p>
+      <button class="btn" style="display:inline-block" onclick="restartQuiz()">Restart Quiz</button>
+    </div>
+
+    <div class="footer">www.ntuition.org | 7305044008</div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "1. What is 25% of 200?",
+        options: ["25", "40", "50", "75"],
+        answer: "50",
+        explanation: "25% means 25 out of 100. So, 25% of 200 = 50."
+      },
+      {
+        question: "2. Which number is divisible by 3?",
+        options: ["124", "238", "342", "451"],
+        answer: "342",
+        explanation: "A number is divisible by 3 if the sum of its digits is divisible by 3. 3 + 4 + 2 = 9."
+      },
+      {
+        question: "3. What is the square of 12?",
+        options: ["124", "132", "144", "156"],
+        answer: "144",
+        explanation: "12 × 12 = 144."
+      },
+      {
+        question: "4. If 5x = 40, what is x?",
+        options: ["5", "6", "8", "10"],
+        answer: "8",
+        explanation: "Divide both sides by 5: x = 40 ÷ 5 = 8."
+      },
+      {
+        question: "5. Which is the smallest prime number?",
+        options: ["0", "1", "2", "3"],
+        answer: "2",
+        explanation: "2 is the smallest prime number and the only even prime number."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    function loadQuestion() {
+      answered = false;
+      const q = questions[currentQuestion];
+      document.getElementById("questionText").textContent = q.question;
+      document.getElementById("optionsBox").innerHTML = "";
+      document.getElementById("feedback").className = "feedback";
+      document.getElementById("feedback").textContent = "";
+      document.getElementById("nextBtn").style.display = "none";
+
+      q.options.forEach(option => {
+        const button = document.createElement("button");
+        button.className = "option";
+        button.textContent = option;
+        button.onclick = () => checkAnswer(button, option);
+        document.getElementById("optionsBox").appendChild(button);
+      });
+
+      updateProgress();
+    }
+
+    function checkAnswer(button, selectedOption) {
+      if (answered) return;
+      answered = true;
+
+      const q = questions[currentQuestion];
+      const allOptions = document.querySelectorAll(".option");
+      const feedback = document.getElementById("feedback");
+
+      allOptions.forEach(opt => {
+        opt.disabled = true;
+        if (opt.textContent === q.answer) {
+          opt.classList.add("correct");
+        }
+      });
+
+      if (selectedOption === q.answer) {
+        score++;
+        feedback.textContent = "Correct! " + q.explanation;
+        feedback.className = "feedback show correct-text";
+      } else {
+        button.classList.add("wrong");
+        feedback.textContent = "Wrong. Correct answer is: " + q.answer + ". " + q.explanation;
+        feedback.className = "feedback show wrong-text";
+      }
+
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function updateProgress() {
+      const progress = ((currentQuestion) / questions.length) * 100;
+      document.getElementById("progressBar").style.width = progress + "%";
+    }
+
+    function showResult() {
+      document.getElementById("progressBar").style.width = "100%";
+      document.getElementById("quizBox").style.display = "none";
+      document.getElementById("resultBox").style.display = "block";
+      document.getElementById("scoreText").textContent = "Your Score: " + score + " / " + questions.length;
+
+      let remark = "";
+      if (score === questions.length) {
+        remark = "Excellent! Full marks.";
+      } else if (score >= questions.length * 0.7) {
+        remark = "Very good! Keep practicing.";
+      } else if (score >= questions.length * 0.4) {
+        remark = "Good try. Revise the concepts once more.";
+      } else {
+        remark = "Needs more practice. Try again carefully.";
+      }
+      document.getElementById("remarkText").textContent = remark;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("quizBox").style.display = "block";
+      document.getElementById("resultBox").style.display = "none";
+      loadQuestion();
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
